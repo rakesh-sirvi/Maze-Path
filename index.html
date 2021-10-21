@@ -7,58 +7,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        :root {
+            --border: black;
+        }
+
         body {
             background-color: bisque;
         }
 
-        #container {
-            margin: 10px;
-        }
-
-        #answers {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
+        #container,
         .answer {
-            margin: 10px;
-        }
-
-        .block {
-            width: 50px;
-            height: 50px;
-            border: 1px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            border-top: 1px solid var(--border);
+            border-left: 1px solid var(--border);
         }
 
         .row {
             display: flex;
+            background-color: white;
+        }
+
+        .block {
+            cursor: pointer;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ans-block {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .block:hover {
+            background-color: gray;
+        }
+
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px;
+            gap: 10px;
+        }
+
+        .input {
+            width: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .controls {
+            display: flex;
+            min-width: 200px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        button {
+            border: none;
+            padding: 2% 8%;
+            background-color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        button:hover {
+            background-color: teal;
+        }
+
+        .matrix-input {
+            display: flex;
+            justify-content: space-evenly;
+            width: 300px;
+        }
+
+        input[type=number] {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            font-size: 2rem;
+            border: none;
+            padding: 0px auto;
+            -moz-appearance: textfield;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        #answers {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .result {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
         }
 
         .dir {
-            width: 20%;
-            height: 114%;
+            width: 5%;
+            height: 95%;
             background-color: brown;
             position: relative;
             top: 50%;
             transform-origin: top;
         }
 
-        #counter {
-            height: 50px;
-            width: 50px;
+        .matrix {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
         }
     </style>
 </head>
 
 <body>
-    <div id="container"></div>
-    <button id="start">Start</button>
-    <div id="counter">0</div>
+    <div class="navbar">
+        <div class="matrix-input">
+            <div class="input">
+                <label for="rows">Rows</label>
+                <input type="number" id="rows">
+            </div>
+            <div class="input">
+                <label for="cols">Cols</label>
+                <input type="number" id="cols">
+            </div>
+        </div>
+        <div class="controls">
+            <button id="generate">Print Matrix</button>
+            <button id="start">Start</button>
+        </div>
+        <div class="result">
+            <div>Possible Result <span id="counter">0</span></div>
+        </div>
+    </div>
+    <div class="matrix">
+        <div id="container"></div>
+    </div>
     <div id="answers"></div>
-    <script src="./index.js"></script>
 </body>
+
+<script src="./index.js"></script>
 
 </html>
