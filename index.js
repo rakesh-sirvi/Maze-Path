@@ -9,7 +9,7 @@ let Matrix = [];
 container.style.width = `${cols * block_size}px`;
 container.style.height = `${rows * block_size}px`;
 
-function matrixGenerate(row, col) {
+function matrixGenerate(rows, cols) {
   Matrix = Array.from(
     {
       length: row,
@@ -25,21 +25,21 @@ function matrixGenerate(row, col) {
   container.innerHTML = "";
   container.style.width = `${col * block_size}px`;
   container.style.height = `${row * block_size}px`;
-  for (let i = 0; i < row; i++) {
+  for (let i = 0; i < rows; i++) {
     const row = document.createElement("div");
     row.className = "row";
     row.style.width = "100%";
     row.style.height = `${block_size}px`;
-    for (let j = 0; j < col; j++) {
+    for (let j = 0; j < cols; j++) {
       const ele = document.createElement("div");
       ele.className = "block";
       ele.style.width = `${block_size}px`;
       ele.style.height = `${block_size}px`;
       ele.setAttribute("data-row", i);
       ele.setAttribute("data-col", j);
-if(i==0&&j==0){
+if(i==0 && j==0){
 ele.innerText = "S";
-}if(i==3&&j==3){
+}if(i== rows - 1 && j== cols - 1){
 ele.innerText = "E";
 }
       row.appendChild(ele);
