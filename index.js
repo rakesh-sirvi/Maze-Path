@@ -38,9 +38,9 @@ function matrixGenerate(row, col) {
       ele.setAttribute("data-row", i);
       ele.setAttribute("data-col", j);
 if(i==0&&j==0){
-ele.innerTEXT = "S";
+ele.innerText = "S";
 }if(i==row-1&&j==col-1){
-ele.innerTEXT = "E";
+ele.innerText = "E";
 }
       row.appendChild(ele);
     }
