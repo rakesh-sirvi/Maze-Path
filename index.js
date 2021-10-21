@@ -37,6 +37,11 @@ function matrixGenerate(row, col) {
       ele.style.height = `${block_size}px`;
       ele.setAttribute("data-row", i);
       ele.setAttribute("data-col", j);
+if(i==0&&j==0){
+ele.innerTEXT = "S";
+}if(i==row-1&&j==col-1){
+ele.innerTEXT = "E";
+}
       row.appendChild(ele);
     }
     container.appendChild(row);
