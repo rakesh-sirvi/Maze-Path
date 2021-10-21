@@ -12,19 +12,19 @@ container.style.height = `${rows * block_size}px`;
 function matrixGenerate(rows, cols) {
   Matrix = Array.from(
     {
-      length: row,
+      length: rows,
     },
     () =>
       Array.from(
         {
-          length: col,
+          length: cols,
         },
         () => 1
       )
   );
   container.innerHTML = "";
-  container.style.width = `${col * block_size}px`;
-  container.style.height = `${row * block_size}px`;
+  container.style.width = `${cols * block_size}px`;
+  container.style.height = `${rows * block_size}px`;
   for (let i = 0; i < rows; i++) {
     const row = document.createElement("div");
     row.className = "row";
