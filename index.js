@@ -39,7 +39,7 @@ function matrixGenerate(row, col) {
       ele.setAttribute("data-col", j);
 if(i==0&&j==0){
 ele.innerText = "S";
-}if(i==(parseInt(row)-1)&&j==(parseInt(col)-1)){
+}if(i==3&&j==3){
 ele.innerText = "E";
 }
       row.appendChild(ele);
