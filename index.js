@@ -2,13 +2,13 @@ const container = document.getElementById("container");
 const rows_input = document.getElementById("rows");
 const cols_input = document.getElementById("cols");
 const generate_button = document.getElementById("generate");
+const delay_input = document.getElementById("delay");
 let rows = (rows_input.value = 4);
 let cols = (cols_input.value = 4);
 let block_size = 60;
 let Matrix = [];
-container.style.width = `${cols * block_size}px`;
-container.style.height = `${rows * block_size}px`;
-
+let delay = parseFloat(delay_input.value);
+delay_input.addEventListener("input", (e) => (delay = e.target.value / 10));
 function matrixGenerate(rows, cols) {
   Matrix = Array.from(
     {
@@ -22,14 +22,12 @@ function matrixGenerate(rows, cols) {
         () => 1
       )
   );
+  if (container.parentNode.offsetWidth < 400)
+    block_size = parseInt(container.parentNode.offsetWidth / (1.5 * cols));
   container.innerHTML = "";
-  container.style.width = `${cols * block_size}px`;
-  container.style.height = `${rows * block_size}px`;
   for (let i = 0; i < rows; i++) {
     const row = document.createElement("div");
     row.className = "row";
-    row.style.width = "100%";
-    row.style.height = `${block_size}px`;
     for (let j = 0; j < cols; j++) {
       const ele = document.createElement("div");
       ele.className = "block";
@@ -48,7 +46,6 @@ function matrixGenerate(rows, cols) {
     container.appendChild(row);
   }
 }
-matrixGenerate(rows, cols);
 container.addEventListener("click", (e) => {
   let row = e.target.getAttribute("data-row");
   let col = e.target.getAttribute("data-col");
@@ -73,7 +70,7 @@ rows_input.addEventListener("input", (e) => {
   }
 });
 rows_input.addEventListener("change", (e) => {
-  if (!e.target.value || e.target.value > 5 || e.target.value < 1) {
+  if (!e.target.value || e.target.value < 1) {
     e.target.value = 4;
     rows = e.target.value;
   }
@@ -87,12 +84,13 @@ cols_input.addEventListener("input", (e) => {
   }
 });
 cols_input.addEventListener("change", (e) => {
-  if (!e.target.value || e.target.value > 5 || e.target.value < 1) {
+  if (!e.target.value || e.target.value < 1) {
     e.target.value = 4;
     cols = e.target.value;
   }
 });
 generate_button.addEventListener("click", () => matrixGenerate(rows, cols));
+matrixGenerate(rows, cols);
 const answers = document.getElementById("answers");
 
 class Pair {
@@ -105,11 +103,11 @@ async function wait(ms) {
   return new Promise((resolve) => setTimeout(() => resolve(), ms));
 }
 
-const delay = 0.1;
 async function mazeUtil(x, y, vis, temp, direction) {
   const rows_div = document.querySelectorAll("#container > .row");
   if (x == Matrix.length - 1 && y == Matrix[0].length - 1) {
     await displayAnswer(Array.from(temp));
+    return;
   }
   const x_a = [-1, 0, 1, 0];
   const y_a = [0, 1, 0, -1];
@@ -126,12 +124,21 @@ async function mazeUtil(x, y, vis, temp, direction) {
       !vis[n_x][n_y]
     ) {
       vis[x][y] = true;
-      rows_div[x].childNodes[y].style.backgroundColor = "skyblue";
+      const span = document.createElement("span");
+      span.className = "dir";
+      if (dir[i] === "RIGHT") {
+        span.style.transform = "rotate(-90deg)";
+      } else if (dir[i] === "LEFT") {
+        span.style.transform = "rotate(90deg)";
+      } else if (dir[i] === "UP") {
+        span.style.transform = "rotate(180deg)";
+      }
+      rows_div[x].childNodes[y].appendChild(span);
       await wait(delay);
       temp.push({ point: new Pair(x, y), dir: dir[i] });
       await mazeUtil(n_x, n_y, vis, temp, dir[i]);
       await wait(delay);
-      rows_div[x].childNodes[y].style.backgroundColor = null;
+      rows_div[x].childNodes[y].removeChild(span);
       vis[x][y] = false;
       temp.pop();
     }
@@ -154,8 +161,14 @@ document.getElementById("start").addEventListener("click", async (e) => {
   document.getElementById("counter").innerText = 0;
   answers.innerHTML = "";
   e.target.setAttribute("disabled", "");
+  generate_button.setAttribute("disabled", "");
+  rows_input.setAttribute("disabled", "");
+  cols_input.setAttribute("disabled", "");
   await solve();
   e.target.removeAttribute("disabled");
+  rows_input.removeAttribute("disabled");
+  cols_input.removeAttribute("disabled");
+  generate_button.removeAttribute("disabled");
 });
 
 async function displayAnswer(temp) {

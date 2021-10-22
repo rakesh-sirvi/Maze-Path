@@ -30,6 +30,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
             cursor: pointer;
             border-right: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
@@ -39,6 +40,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
             border-right: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
         }
@@ -48,29 +50,25 @@
         }
 
         .navbar {
+            width: 90%;
             display: flex;
-            flex-wrap: wrap;
-            margin: 20px;
+            justify-content: space-around;
             gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px auto;
         }
 
         .input {
-            width: 80px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .controls {
-            display: flex;
-            min-width: 200px;
-            justify-content: space-between;
-            align-items: center;
+            margin: 10px auto;
         }
 
         button {
+            margin: 10px;
             border: none;
-            padding: 2% 8%;
+            padding: 10px;
             background-color: white;
             border-radius: 25px;
             cursor: pointer;
@@ -83,8 +81,8 @@
 
         .matrix-input {
             display: flex;
-            justify-content: space-evenly;
-            width: 300px;
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
 
         input[type=number] {
@@ -118,19 +116,19 @@
         }
 
         .dir {
-            width: 5%;
-            height: 95%;
-            background-color: brown;
-            position: relative;
+            width: 2px;
+            height: 100%;
+            background-color: red;
+            transform-origin: top center;
+            position: absolute;
             top: 50%;
-            transform-origin: top;
         }
 
         .matrix {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 20px;
+            margin: 20px auto;
         }
     </style>
 </head>
@@ -146,10 +144,14 @@
                 <label for="cols">Cols</label>
                 <input type="number" id="cols">
             </div>
-        </div>
-        <div class="controls">
-            <button id="generate">Print Matrix</button>
-            <button id="start">Start</button>
+            <div class="input">
+                <label for="cols">Speed</label>
+                <input type="range" min="1" max="3000" id="delay">
+            </div>
+            <div class="input">
+                <button id="generate">Print Matrix</button>
+                <button id="start">Start</button>
+            </div>
         </div>
         <div class="result">
             <div>Possible Result <span id="counter">0</span></div>
