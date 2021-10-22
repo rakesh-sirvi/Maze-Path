@@ -7,9 +7,10 @@ let rows = (rows_input.value = 4);
 let cols = (cols_input.value = 4);
 let block_size = 60;
 let Matrix = [];
-let delay = parseFloat(delay_input.value);
+let delay = parseFloat(delay_input.value) / 10;
 delay_input.addEventListener("input", (e) => (delay = e.target.value / 10));
 function matrixGenerate(rows, cols) {
+  container.innerHTML = "";
   Matrix = Array.from(
     {
       length: rows,
@@ -24,7 +25,6 @@ function matrixGenerate(rows, cols) {
   );
   if (container.parentNode.offsetWidth < 400)
     block_size = parseInt(container.parentNode.offsetWidth / (1.5 * cols));
-  container.innerHTML = "";
   for (let i = 0; i < rows; i++) {
     const row = document.createElement("div");
     row.className = "row";
@@ -103,6 +103,19 @@ async function wait(ms) {
   return new Promise((resolve) => setTimeout(() => resolve(), ms));
 }
 
+function dir_line(dir) {
+  const span = document.createElement("span");
+  span.className = "dir";
+  if (dir === "RIGHT") {
+    span.style.transform = "rotate(-90deg)";
+  } else if (dir === "LEFT") {
+    span.style.transform = "rotate(90deg)";
+  } else if (dir === "UP") {
+    span.style.transform = "rotate(180deg)";
+  }
+  return span;
+}
+
 async function mazeUtil(x, y, vis, temp, direction) {
   const rows_div = document.querySelectorAll("#container > .row");
   if (x == Matrix.length - 1 && y == Matrix[0].length - 1) {
@@ -124,21 +137,13 @@ async function mazeUtil(x, y, vis, temp, direction) {
       !vis[n_x][n_y]
     ) {
       vis[x][y] = true;
-      const span = document.createElement("span");
-      span.className = "dir";
-      if (dir[i] === "RIGHT") {
-        span.style.transform = "rotate(-90deg)";
-      } else if (dir[i] === "LEFT") {
-        span.style.transform = "rotate(90deg)";
-      } else if (dir[i] === "UP") {
-        span.style.transform = "rotate(180deg)";
-      }
-      rows_div[x].childNodes[y].appendChild(span);
-      await wait(delay);
+      const span = dir_line(dir[i]);
+      rows_div[x].children[y].appendChild(span);
       temp.push({ point: new Pair(x, y), dir: dir[i] });
+      await wait(delay);
       await mazeUtil(n_x, n_y, vis, temp, dir[i]);
       await wait(delay);
-      rows_div[x].childNodes[y].removeChild(span);
+      rows_div[x].children[y].removeChild(span);
       vis[x][y] = false;
       temp.pop();
     }
@@ -176,23 +181,15 @@ async function displayAnswer(temp) {
     parseInt(document.getElementById("counter").innerText) + 1;
   const answer = document.createElement("div");
   answer.className = "answer";
-  answer.style.width = `${block_size * cols * 0.5}px`;
-  answer.style.height = `${block_size * rows * 0.5}px`;
   Matrix.forEach((row) => {
     const ansDiv = document.createElement("div");
     ansDiv.className = "row";
-    ansDiv.style.width = "100%";
-    ansDiv.style.height = `${block_size * 0.5}px`;
     row.forEach((element) => {
       const div = document.createElement("div");
       div.className = "ans-block";
       div.style.width = `${block_size * 0.5}px`;
       div.style.height = `${block_size * 0.5}px`;
-      if (element === 0) {
-        div.style.backgroundColor = "black";
-      } else {
-        div.style.backgroundColor = null;
-      }
+      if (element === 0) div.style.backgroundColor = "black";
       ansDiv.appendChild(div);
     });
     answer.appendChild(ansDiv);
@@ -200,16 +197,7 @@ async function displayAnswer(temp) {
   });
   temp.forEach((pair) => {
     const target = answer.children[pair.point.x].children[pair.point.y];
-    const span = document.createElement("span");
-    span.className = "dir";
-    const dir = pair.dir;
-    if (dir === "RIGHT") {
-      span.style.transform = "rotate(-90deg)";
-    } else if (dir === "LEFT") {
-      span.style.transform = "rotate(90deg)";
-    } else if (dir === "UP") {
-      span.style.transform = "rotate(180deg)";
-    }
+    const span = dir_line(pair.dir);
     target.appendChild(span);
   });
 }
