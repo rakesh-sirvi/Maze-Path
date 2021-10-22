@@ -37,8 +37,10 @@ function matrixGenerate(rows, cols) {
       ele.setAttribute("data-col", j);
       if (i == 0 && j == 0) {
         ele.innerText = "S";
+        ele.style.backgroundColor = "green";
       }
       if (i == rows - 1 && j == cols - 1) {
+        ele.style.backgroundColor = "red";
         ele.innerText = "E";
       }
       row.appendChild(ele);
@@ -181,6 +183,7 @@ async function displayAnswer(temp) {
     parseInt(document.getElementById("counter").innerText) + 1;
   const answer = document.createElement("div");
   answer.className = "answer";
+  answer.setAttribute("data-size", temp.length + 1);
   Matrix.forEach((row) => {
     const ansDiv = document.createElement("div");
     ansDiv.className = "row";

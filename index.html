@@ -34,6 +34,8 @@
             cursor: pointer;
             border-right: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
+            font-size: 2rem;
+            color: white;
         }
 
         .ans-block {
@@ -80,6 +82,7 @@
         }
 
         .matrix-input {
+            flex: auto;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
@@ -108,6 +111,15 @@
             justify-content: center;
         }
 
+        .answer {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .answer::after {
+            content: "Path length = "attr(data-size);
+            margin-left: 10px;
+        }
+
         .result {
             display: flex;
             justify-content: center;
@@ -116,12 +128,13 @@
         }
 
         .dir {
-            width: 2px;
+            width: 5%;
             height: 100%;
-            background-color: red;
+            background-color: black;
             transform-origin: top center;
             position: absolute;
             top: 50%;
+            z-index: 10;
         }
 
         .matrix {
