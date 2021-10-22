@@ -37,11 +37,12 @@ function matrixGenerate(rows, cols) {
       ele.style.height = `${block_size}px`;
       ele.setAttribute("data-row", i);
       ele.setAttribute("data-col", j);
-if(i==0 && j==0){
-ele.innerText = "S";
-}if(i== rows - 1 && j== cols - 1){
-ele.innerText = "E";
-}
+      if (i == 0 && j == 0) {
+        ele.innerText = "S";
+      }
+      if (i == rows - 1 && j == cols - 1) {
+        ele.innerText = "E";
+      }
       row.appendChild(ele);
     }
     container.appendChild(row);
@@ -49,7 +50,6 @@ ele.innerText = "E";
 }
 matrixGenerate(rows, cols);
 container.addEventListener("click", (e) => {
-  console.log("click", e.target);
   let row = e.target.getAttribute("data-row");
   let col = e.target.getAttribute("data-col");
   if ((row == 0 && col == 0) || (row == rows - 1 && col == cols - 1)) return;
@@ -73,7 +73,7 @@ rows_input.addEventListener("input", (e) => {
   }
 });
 rows_input.addEventListener("change", (e) => {
-  if (!e.target.value || e.target.value > 5) {
+  if (!e.target.value || e.target.value > 5 || e.target.value < 1) {
     e.target.value = 4;
     rows = e.target.value;
   }
@@ -87,12 +87,12 @@ cols_input.addEventListener("input", (e) => {
   }
 });
 cols_input.addEventListener("change", (e) => {
-  if (!e.target.value || e.target.value > 5) {
+  if (!e.target.value || e.target.value > 5 || e.target.value < 1) {
     e.target.value = 4;
     cols = e.target.value;
   }
 });
-generate_button.addEventListener("click", (e) => matrixGenerate(rows, cols));
+generate_button.addEventListener("click", () => matrixGenerate(rows, cols));
 const answers = document.getElementById("answers");
 
 class Pair {
